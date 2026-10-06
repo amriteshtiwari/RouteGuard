@@ -9,6 +9,7 @@ require_relative "rules/duplicate_resources"
 require_relative "rules/statistics"
 require_relative "rules/complexity"
 require_relative "rules/unused_routes"
+require_relative "suggester"
 
 module RouteGuard
   class Analyzer
@@ -62,6 +63,12 @@ module RouteGuard
       end
 
       report.issues = issues
+
+      # Attach auto-fix suggestions to each issue (purely additive)
+      issues.each do |issue|
+        issue.suggestion = Suggester.suggest(issue)
+      end
+
       report.duration = Time.now - start_time
       report
     end

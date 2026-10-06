@@ -40,7 +40,8 @@ module RouteGuard
             formatted: issue.location
           },
           route: issue.route ? format_route(issue.route) : nil,
-          related_routes: issue.related_routes.map { |r| format_route(r) }
+          related_routes: issue.related_routes.map { |r| format_route(r) },
+          suggestion: issue.suggestion ? format_suggestion(issue.suggestion) : nil
         }
       end
 
@@ -54,6 +55,14 @@ module RouteGuard
           name: route.name,
           constraints: route.constraints.transform_values(&:to_s),
           location: route.location
+        }
+      end
+
+      def format_suggestion(suggestion)
+        {
+          fix_type:    suggestion.fix_type.to_s,
+          description: suggestion.description,
+          diff:        suggestion.diff_to_s
         }
       end
     end

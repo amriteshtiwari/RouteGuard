@@ -4,6 +4,7 @@ module RouteGuard
   module Models
     class Issue
       attr_reader :rule_name, :severity, :message, :route, :related_routes, :file, :line
+      attr_accessor :suggestion
 
       def initialize(rule_name:, severity:, message:, route:, related_routes: [], file: nil, line: nil)
         @rule_name = rule_name.to_sym

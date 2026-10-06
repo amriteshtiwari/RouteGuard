@@ -59,6 +59,25 @@ module RouteGuard
                 io.puts "    - #{Rainbow(rel.to_s).bold} at #{Rainbow(rel.location).underline}"
               end
             end
+
+            # ── Auto-Fix Suggestion ────────────────────────────────────────
+            if issue.suggestion
+              sug = issue.suggestion
+              io.puts "  #{Rainbow("💡 Suggested Fix:").cyan.bold} #{sug.description}"
+              io.puts "  #{Rainbow("─" * 48).faint}"
+              sug.diff_lines.each do |dl|
+                case dl[:type]
+                when :add
+                  io.puts "  #{Rainbow("+ #{dl[:content]}").green}"
+                when :remove
+                  io.puts "  #{Rainbow("- #{dl[:content]}").red}"
+                else
+                  io.puts "  #{Rainbow("  #{dl[:content]}").faint}"
+                end
+              end
+              io.puts "  #{Rainbow("─" * 48).faint}"
+            end
+
             io.puts
           end
           io.puts Rainbow("─" * 50).faint
